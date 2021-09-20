@@ -1,0 +1,79 @@
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+scalar Upload
+  @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
+
+type Query {
+    users: [User!]! @paginate(defaultCount: 10)
+    user(id: ID @eq): User @find
+
+    meetings: [Meeting!]! @paginate(defaultCount: 10)
+    meeting(id: ID @eq): Meeting @find
+}
+
+extend type Mutation {
+  importXmlData(file: Upload!): Boolean
+    @field(resolver: "App\\GraphQL\\Mutations\\ImportXmlData@resolve")
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Meeting {
+    id: ID!
+    country: String!
+    status: String!
+    date: String!
+    course: String!
+    races: [Race!]
+    revision: Int!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Race {
+    id: ID!
+    date: String!
+    time: String!
+    runners: Int!
+    horses: [Horse!]
+    handicap: Boolean!
+    showcase: Boolean!
+    trifecta: Boolean!
+    stewards: String!
+    status: String!
+    revision: Int!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Horse {
+    id: ID!
+    name: String!
+    bred: String!
+    status: String!
+    cloth_number: Int!
+    jockey: Jockey!
+    trainer: Trainer!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Jockey {
+    id: ID!
+    name: String!
+}
+
+type Trainer {
+    id: ID!
+    name: String!
+}
