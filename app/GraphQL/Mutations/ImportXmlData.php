@@ -78,7 +78,7 @@ class ImportXmlData
         }
 
         $race->horses()->attach($horseIds);
-        $race->save();
+        return $race->save();
     }
 
     /**

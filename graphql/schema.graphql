@@ -16,7 +16,7 @@ type Query {
 }
 
 extend type Mutation {
-  importXmlData(file: Upload!): Boolean
+  importXmlData(file: Upload!): Boolean!
     @field(resolver: "App\\GraphQL\\Mutations\\ImportXmlData@resolve")
 }
 
